@@ -1,12 +1,13 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const User = require("./moduls/moduls"); // Import the User schema
-const SecUser = require("./moduls/secmodul"); // Import the SecUser schema
+import dotenv from 'dotenv'
+import express from 'express';
+import cors from 'cors'
+import mongoose from "mongoose";
+import { spaceform, spaceform1 } from "./controllers/formController.js";
 
+
+dotenv.config()
 const app = express();
 
-require('dotenv').config()
 
 // Middleware
 app.use(cors());
@@ -20,26 +21,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((error) => console.error("DB connection failed:", error));
 
 // Routes for User (moduls.js)
-app.post("/post", async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ error: "Failed to create user" });
-  }
-});
+app.post("/post", spaceform);
 
 // Routes for SecUser (secmodul.js)
-app.post("/experbuilt", async (req, res) => {
-  try {
-    const secuser = await SecUser.create(req.body);
-    res.status(201).json(secuser);
-  } catch (error) {
-    console.error("Error creating secuser:", error);
-    res.status(500).json({ error: "Failed to create secuser" });
-  }
-});
+app.post("/experbuilt", spaceform1);
 
 // Server listening on port 3000
 const port = process.env.PORT || 3000;
