@@ -26,6 +26,18 @@ app.post("/post", spaceform);
 // Routes for SecUser (secmodul.js)
 app.post("/experbuilt", spaceform1);
 
+app.get('/',async(req,res)=>{
+  try {
+    res.status(201).json({
+      message:'Server is Running'
+    })
+  } catch (error) {
+    res.status(500).json({
+      message:"Internal Server Error"
+    })
+  }
+})
+
 // Server listening on port 3000
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
